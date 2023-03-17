@@ -142,9 +142,6 @@ const WBSTasks = props => {
         modifiedList = true;
       }
     }
-
-    //console.log(list);
-    //props.updateNumList(wbsId, list);*/
   };
 
   const deleteWBSTask = (taskId, mother) => {
@@ -241,9 +238,7 @@ const WBSTasks = props => {
         </Button>
 
         {loadAll === false ? (
-
           <Button color="warning" size="sm" className="ml-3">
-
             {' '}
             Task Loading......{' '}
           </Button>
@@ -253,7 +248,6 @@ const WBSTasks = props => {
           <Button
             color="primary"
             size="sm"
-            className="ml-3"
             onClick={() => {
               setFilterState('all');
               setOpenAll(!openAll);
@@ -261,19 +255,19 @@ const WBSTasks = props => {
           >
             All
           </Button>
-          <Button color="secondary" size="sm" onClick={() => setFilterState('assigned')} className="ml-3">
+          <Button color="secondary" size="sm" onClick={() => setFilterState('assigned')}>
             Assigned
           </Button>
-          <Button color="success" size="sm" onClick={() => setFilterState('unassigned')} className="ml-3">
+          <Button color="success" size="sm" onClick={() => setFilterState('unassigned')}>
             Unassigned
           </Button>
-          <Button color="info" size="sm" onClick={() => setFilterState('active')} className="ml-3">
+          <Button color="info" size="sm" onClick={() => setFilterState('active')}>
             Active
           </Button>
-          <Button color="warning" size="sm" onClick={() => setFilterState('inactive')} className="ml-3">
+          <Button color="warning" size="sm" onClick={() => setFilterState('inactive')}>
             Inactive
           </Button>
-          <Button color="danger" size="sm" onClick={() => setFilterState('complete')} className="ml-3">
+          <Button color="danger" size="sm" onClick={() => setFilterState('complete')}>
             Complete
           </Button>
         </div>
@@ -371,11 +365,12 @@ const WBSTasks = props => {
                 endstateInfo={task.endstateInfo}
                 childrenQty={task.childrenQty}
                 filteredTasks={filteredTasks}
-
               />
             ))}
           </tbody>
         </table>
+
+        <table></table>
       </div>
     </React.Fragment>
   );

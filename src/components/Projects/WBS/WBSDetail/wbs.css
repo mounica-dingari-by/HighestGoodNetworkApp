@@ -122,8 +122,12 @@
 }
 
 .toggle-all {
-  float: right;
+  width: 100%;
+  display: flex;
+  justify-content: unset;
+  margin-bottom: 20px;
 }
+
 .tasks-table {
   overflow-x: scroll;
   width: 100% !important;
@@ -138,10 +142,26 @@
   padding-right: 5px;
 }
 
+.toggle-all button {
+  margin-right: 15px;
+}
+
 @media only screen and (max-width: 600px) {
-  .desktop-view {
-    display: none;
+  .toggle-all {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
   }
+
+  .toggle-all button {
+    padding: 3px !important;
+    font-size: 12px;
+    margin-right: unset;
+  }
+
+  /* .desktop-view {
+    display: none;
+  }*/
 
   .table td {
     padding: 5px !important;
