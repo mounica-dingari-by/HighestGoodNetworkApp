@@ -1,0 +1,35 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended", // Uses the recommended rules from @eslint-plugin-react
+    "plugin:react/jsx-runtime",
+    "plugin:react-hooks/recommended", // Uses the recommended rules from @eslint-plugin-react-hooks
+    "plugin:jsx-a11y/recommended", // Uses the recommended rules from @eslint-plugin-jsx-a11y
+    "plugin:import/recommended", // Uses the recommended rules from @eslint-plugin-import
+    "prettier" // Uses eslint-config-prettier to disable ESLint rules from @eslint-plugin-react that would conflict with prettier
+  ],
+  "overrides": [
+    {
+      "files": ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)"],
+      "extends": ["plugin:testing-library/react"]
+    }
+  ],
+  "parserOptions": {
+    "ecmaVersion": "latest", // Allows for the parsing of modern ECMAScript features
+    "sourceType": "module", // Allows for the use of imports
+    "ecmaFeatures": {
+      "jsx": true // Allows for the parsing of JSX
+    }
+  },
+  "plugins": ["react", "jsx-a11y"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "rules": {}
+}
