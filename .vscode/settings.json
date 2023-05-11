@@ -19,5 +19,6 @@
     "**/.project": true,
     "**/.settings": true,
     "**/.factorypath": true
-  }
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }

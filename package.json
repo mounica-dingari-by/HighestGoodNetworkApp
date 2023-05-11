@@ -74,6 +74,7 @@
     "build": "react-scripts build",
     "lint": "eslint src/**/*.js src/**/*.jsx --fix",
     "test": "cross-env CI=true react-scripts test --env=jest-environment-jsdom-sixteen",
+    "prettier": "prettier --write . 'src/**/*.{js,jsx,json,css,scss,md}'",
     "test:watch": " react-scripts test --env=jest-environment-jsdom-sixteen",
     "test:coverage": "cross-env CI=true react-scripts test --env=jest-environment-jsdom-sixteen --coverage",
     "eject": "react-scripts eject",
@@ -102,7 +103,9 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-testing-library": "^5.10.3",
     "fetch-mock": "^9.10.1",
+    "husky": "^8.0.3",
     "jest-environment-jsdom-sixteen": "^1.0.3",
+    "lint-staged": "^13.2.2",
     "msw": "^0.19.5",
     "node-fetch": "^3.1.1",
     "node-sass": "^8.0.0",
@@ -110,5 +113,16 @@
     "redux-mock-store": "^1.5.4",
     "sinon": "^7.3.2",
     "surge": "^0.21.6"
+  },
+  "husky":{
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.{js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
 }
