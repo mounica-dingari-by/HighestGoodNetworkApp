@@ -14,6 +14,10 @@ src/utils/**
 src/__tests__/**
 
 
+src/**/*.test.jsx
+src/**/*.test.js
+
+
 src/components/Admin/**
 src/components/App.jsx
 src/components/AutoReload/**
