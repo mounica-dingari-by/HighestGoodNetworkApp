@@ -122,8 +122,8 @@
   },
   "lint-staged": {
     "src/**/*.{js,jsx}": [
-      "eslint --fix",
-      "prettier --write"
+      "eslint src --ext .js,.jsx --ignore-path .eslintignore --fix",
+       "prettier . --write src/**/*.js src/**/*.jsx "
     ]
   }
 }
