@@ -1,13 +1,12 @@
-import { useState } from 'react';
+//introducing some errors to test the linter
 
 let x;
 
 function Acomp() {
   if (x) {
-    useState();
+    return 1;
   }
-  return 2
-  ;
+  return 2;
 }
 
 export default Acomp;
