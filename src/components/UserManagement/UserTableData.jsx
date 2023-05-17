@@ -6,11 +6,9 @@ import { useHistory } from 'react-router-dom';
 import ActiveCell from './ActiveCell';
 import hasPermission from 'utils/permissions';
 import Table from 'react-bootstrap/Table';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
-
 
 /**
  * The body row of the user table
@@ -43,7 +41,6 @@ const UserTableData = React.memo(props => {
         <a href={`/userprofile/${props.user._id}`}>{props.user.lastName}</a>
       </td>
       <td>{props.user.role}</td>
-
       <td>
       {props.user.email}
       <FontAwesomeIcon
@@ -55,8 +52,6 @@ const UserTableData = React.memo(props => {
         }}
       />
       </td>
-
-
       <td>{props.user.weeklycommittedHours}</td>
       <td>
         <button
