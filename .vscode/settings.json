@@ -2,7 +2,12 @@
   // other settings
   // formatting using eslint
   // let editor format using prettier for all other files
-  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.probe": [
+    "javascript",
+    "javascriptreact"
+  ],
+  "editor.formatOnSave": false,
   // disable editor formatting, so eslint can handle it
   "[javascript]": {
     "editor.formatOnSave": true
@@ -11,7 +16,9 @@
   // available through eslint plugin in vscode
   "eslint.alwaysShowStatus": true,
   "editor.tabSize": 2,
+  // Runs Prettier, then ESLint
   "editor.codeActionsOnSave": {
+    "source.formatDocument": true,
     "source.fixAll.eslint": true
   },
   "files.exclude": {
