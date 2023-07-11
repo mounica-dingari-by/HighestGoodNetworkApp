@@ -14,6 +14,13 @@ import ReactHtmlParser from 'react-html-parser';
 
 const ImportTask = props => {
   const [isDone, setIsDone] = useState(0);
+  //infopoint
+  const [infoModal, setInfoModal] = useState(false);
+
+  const toggleInfoModal = () => {
+    setInfoModal(!infoModal);
+  };
+
   // modal
   const [modal, setModal] = useState(false);
   const toggle = () => {
@@ -26,6 +33,7 @@ const ImportTask = props => {
   useEffect(() => {
     props.getPopupById(TASK_IMPORT_POPUP_ID);
   }, [1]);
+
 
   const handleFileRead = async rows => {
     setIsDone(1);
@@ -141,7 +149,59 @@ const ImportTask = props => {
   return (
     <React.Fragment>
       <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Import Tasks</ModalHeader>
+        <ModalHeader toggle={toggle}>Import Tasks
+        <i
+          data-toggle="tooltip"
+          data-placement="right"
+          title="Click for more information"
+          style={{ fontSize: 24, cursor: 'pointer' }}
+          aria-hidden="true"
+          className="fa fa-info-circle"
+          onClick={toggleInfoModal}
+        />
+        </ModalHeader>
+
+        <Modal isOpen={infoModal} toggle={toggleInfoModal}>
+            <ModalHeader toggle={toggle}>Import Tasks Info</ModalHeader>
+            <ModalBody>
+            <ol>
+              <li>
+              Check your Google Sheet to confirm:
+                <ul>
+                  <li>
+                  All numbers (for the tasks) are sequential
+                  </li>
+                  <li>
+                  No dots/periods at the end of numbers, double periods in numbers, etc.
+                  </li>
+                  <li>
+                  Export tab to its own file, otherwise the app will try and import the first tab of your spreadsheet
+                  </li>
+                  <li>
+                  Download as an Excel file
+                  </li>
+                </ul>
+              </li>
+              <li>Click “Choose File” and choose your newly created Excel File</li>
+              <li>On the popup that happens next, double check the Rows listed match the rows being imported.
+                <ul>
+                  <li>
+                  If they do, click “Upload” and you are done!
+                  </li>
+                  <li>
+                  If they don’t, go back and double check all numbers are sequential, no additional periods exist, etc. for numbering the tasks and that your file column structure and other details perfectly matches the source template. Fix errors and try again.
+                  </li>
+                </ul>
+              </li>
+            </ol>
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={toggle} color="secondary" className="float-left">
+              {' '}
+              Ok{' '}
+            </Button>
+          </ModalFooter>
+        </Modal> 
         <ModalBody>
           <table className="table table-bordered">
             <tbody>

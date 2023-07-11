@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Table, Progress, Modal, ModalBody, ModalFooter, ModalHeader, Button } from 'reactstrap';
 import Alert from 'reactstrap/lib/Alert';
 import { hasLeaderboardPermissions, assignStarDotColors, showStar } from 'utils/leaderboardPermissions';
+import ReactTooltip from 'react-tooltip';
 
 function useDeepEffect(effectFunc, deps) {
   const isFirst = useRef(true);
@@ -113,6 +114,12 @@ const LeaderBoard = ({
       </p>
       <p>Note: Admins and Core Team can always see all team members. This cannot be changed.</p>
     </>,
+    <>
+    <p>
+    By clicking on the name of any team member, you will be redirected to their individual profile page. These personalized profiles provide detailed information about each team member, including their background, expertise, and contributions to the team. 
+    On their profile page, not only can you view the information about each team member, but as an admin you also have the ability to modify any of their details. Whether it's updating their contact information, adding blue squares or badges to recognize their achievements, including new projects they have worked on, or even adding them to a team, the profile page provides a dynamic platform for managing and showcasing the evolving contributions of each team member. It serves as a hub for collaboration and collaboration and facilitates seamless communication within the team.
+    </p>
+  </>,
   ];
 
   const handleModalOpen = idx => {
@@ -194,10 +201,21 @@ const LeaderBoard = ({
           <thead>
             <tr>
               <th>Status</th>
-              <th>Name</th>
+              <th>Name <i
+            data-toggle="tooltip"
+            data-placement="right"
+            title="Click for more information"
+            style={{ fontSize: 20, cursor: 'pointer' }}
+            aria-hidden="true"
+            className="fa fa-info-circle"
+            onClick={() => {
+              handleModalOpen(2);
+            }}
+          /></th>
               <th>
                 <span className="d-sm-none">Tan. Time</span>
-                <span className="d-none d-sm-block">Tangible Time</span>
+                <span className="d-none d-sm-block">Tangible Time                             
+                </span>
               </th>
               <th>Progress</th>
               <th>
