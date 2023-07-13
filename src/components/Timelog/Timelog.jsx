@@ -427,6 +427,24 @@ const Timelog = props => {
       ) : (
         ''
       )}
+      <i
+          className="fa fa-info-circle"
+          data-tip
+          data-for="timeEntryTip"
+          data-delay-hide="1000"
+          aria-hidden="true"
+          title=""
+        />
+         <ReactTooltip id="timeEntryTip" place="bottom" effect="solid">
+         Our Dashboard is your central hub for seamless workflow management. <br/>
+         Here, you'll find a comprehensive overview of your time log, tasks, <br/>
+         team members' assignments, and progress—all in one place. Stay on top <br/>
+         of your schedule by tracking your time log and effortlessly managing <br/>
+         your tasks. Additionally, you can monitor your team members' progress <br/>
+         and ensure everyone stays on track. The Dashboard also offers convenient <br/>
+         features for managing your weekly summary, allowing you to register your <br/>
+         time and summarize your work effortlessly with each log. Make the most of it!<br/>
+       </ReactTooltip>
       {state.isTimeEntriesLoading ? (
         <Loading />
       ) : (

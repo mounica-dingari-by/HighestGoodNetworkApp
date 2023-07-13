@@ -16,7 +16,6 @@ const ImportTask = props => {
   const [isDone, setIsDone] = useState(0);
   //infopoint
   const [infoModal, setInfoModal] = useState(false);
-
   const toggleInfoModal = () => {
     setInfoModal(!infoModal);
   };

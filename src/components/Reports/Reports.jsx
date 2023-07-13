@@ -16,10 +16,12 @@ import './reportsPage.css';
 import projectsImage from './images/Projects.svg';
 import peopleImage from './images/People.svg';
 import teamsImage from './images/Teams.svg';
+import ReactTooltip from 'react-tooltip';
 
 const DATE_PICKER_MIN_DATE = '01/01/2010';
 
 class ReportsPage extends Component {
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -165,6 +167,7 @@ class ReportsPage extends Component {
     return filteredList;
   };
 
+  
   setActive() {
     this.setState(state => ({
       checkActive: 'true',
@@ -215,7 +218,10 @@ class ReportsPage extends Component {
     }));
   }
 
+  
+
   render() {
+     
     const { projects } = this.props.state.allProjects;
     const { allTeams } = this.props.state.allTeamsData;
     const { userProfiles } = this.props.state.allUserProfiles;
@@ -240,10 +246,27 @@ class ReportsPage extends Component {
     if (this.state.startDate != null && this.state.endDate != null) {
       this.state.peopleSearchData = this.filteredPeopleList(this.state.peopleSearchData);
     }
+
+    
     return (
       <Container fluid className="mb-5 container-component-wrapper">
         <div className="container-component-category">
-          <h2 className="mt-3 mb-5">Reports Page</h2>
+          <h2 className="mt-3 mb-5">Reports Page
+          <i
+          className="fa fa-info-circle"
+          data-tip
+          data-for="timeEntryTip"
+          data-delay-hide="1000"
+          aria-hidden="true"
+          title=""
+        />
+        <ReactTooltip id="timeEntryTip" place="bottom" effect="solid">
+        You are on the Reports page of HGN for People, Projects, and Teams. <br/>
+        With just a click, you can access comprehensive insights for each category. <br/>
+        Simply navigate to the "People," "Projects," or "Teams" sections and click <br/>
+        the chosen one to unlock a wealth of valuable information. <br/>
+        </ReactTooltip>
+          </h2>
           <div>
             <p>Select a Category</p>
           </div>

@@ -12,6 +12,7 @@ import { getWeeklySummariesReport } from '../../actions/weeklySummariesReport';
 import FormattedReport from './FormattedReport';
 import GeneratePdfReport from './GeneratePdfReport';
 import hasPermission from '../../utils/permissions';
+import ReactTooltip from 'react-tooltip';
 
 export class WeeklySummariesReport extends Component {
   state = {
@@ -92,7 +93,33 @@ export class WeeklySummariesReport extends Component {
       <Container fluid className="bg--white-smoke py-3 mb-5">
         <Row>
           <Col lg={{ size: 10, offset: 1 }}>
-            <h3 className="mt-3 mb-5">Weekly Summaries Reports page</h3>
+            <h3 className="mt-3 mb-5">Weekly Summaries Reports page
+            <i
+          className="fa fa-info-circle"
+          data-tip
+          data-for="timeEntryTip"
+          data-delay-hide="1000"
+          aria-hidden="true"
+          title=""
+        />
+        </h3>
+        <ReactTooltip id="timeEntryTip" place="bottom" effect="solid">
+        <p>Our Weekly Summaries Reports page is your go-to destination for staying <br/>
+        informed about your team's progress and accomplishments. Here, you can easily <br/>
+        access and review the summaries submitted by each team member. Gain valuable <br/>
+        insights into their activities, tasks completed, and milestones achieved throughout <br/>
+        the week. To provide a comprehensive overview, each team member is encouraged to include <br/>
+        links and screenshots of their work, ensuring transparency and accountability.
+        </p>
+        <p>Furthermore, the Weekly Summaries Reports page allows you to track whether you have requested <br/>
+        a bio from any team member. This feature ensures that all necessary information is collected and <br/>
+        readily available for team documentation and communication purposes.<br/>
+        </p>
+        <p>Streamline your workflow and foster effective team collaboration by leveraging the <br/>
+        Weekly Summaries Reports page. Stay up to date with your team's weekly progress, accomplishments, <br/>
+        and requested information, all in one convenient location!<br/>
+        </p>
+        </ReactTooltip>
           </Col>
         </Row>
         <Row>
