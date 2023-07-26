@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import 'moment-timezone';
@@ -12,6 +13,7 @@ import axios from 'axios';
 import { ENDPOINTS } from '../../utils/URL';
 
 import { assignStarDotColors, showStar } from 'utils/leaderboardPermissions';
+import { calculateDurationBetweenDates, showTrophyIcon, calculateAnniversaryDate } from 'utils/anniversaryPermissions';
 
 const textColors = {
   Default: '#000000',
@@ -29,6 +31,12 @@ const textColors = {
 const FormattedReport = ({ summaries, weekIndex, bioCanEdit }) => {
   const emails = [];
   //const bioCanEdit = role === 'Owner' || role === 'Administrator';
+  let yearsSinceStarted = 0.0;
+  let summarySubmissionDate = moment()
+    .tz('America/Los_Angeles')
+    .endOf('week')
+    .subtract(weekIndex, 'week')
+    .format('YYYY-MM-DD');
 
   summaries.forEach(summary => {
     if (summary.email !== undefined && summary.email !== null) {
@@ -73,6 +81,7 @@ const FormattedReport = ({ summaries, weekIndex, bioCanEdit }) => {
 
   const getWeeklySummaryMessage = summary => {
     if (!summary) {
+      yearsSinceStarted = calculateDurationBetweenDates(summarySubmissionDate, summary?.createdDate.split('T')[0])
       return (
         <p>
           <b>Weekly Summary:</b> Not provided!
@@ -98,8 +107,14 @@ const FormattedReport = ({ summaries, weekIndex, bioCanEdit }) => {
           .format('YYYY-MMM-DD');
         summaryDateText = `Summary Submitted On (${summaryDate}):`;
 
+        yearsSinceStarted = calculateDurationBetweenDates(summarySubmissionDate, summary?.createdDate.split('T')[0])
+
         return <div style={style}>{ReactHtmlParser(summaryText)}</div>;
+
       } else {
+
+        yearsSinceStarted = calculateDurationBetweenDates(summarySubmissionDate, summary?.createdDate.split('T')[0])
+
         if (
           summary?.weeklySummaryOption === 'Not Required' ||
           (!summary?.weeklySummaryOption && summary.weeklySummaryNotReq)
@@ -200,8 +215,8 @@ const FormattedReport = ({ summaries, weekIndex, bioCanEdit }) => {
         {bioPosted === 'default'
           ? ' Not requested/posted'
           : bioPosted === 'posted'
-          ? ' Posted'
-          : ' Requested'}
+            ? ' Posted'
+            : ' Requested'}
       </div>
     );
   };
@@ -227,6 +242,18 @@ const FormattedReport = ({ summaries, weekIndex, bioCanEdit }) => {
 
               <span onClick={() => handleGoogleDocClick(googleDocLink)}>
                 <img className="google-doc-icon" src={google_doc_icon} alt="google_doc" />
+              </span>
+
+              {showTrophyIcon(summarySubmissionDate, summary?.createdDate.split('T')[0]) &&
+                <i className="fa fa-trophy" style={{ marginLeft: '10px', fontSize: '25px' }}>
+                  <p style={{ fontSize: '10px', marginLeft: '5px' }}>{yearsSinceStarted === 0 ? '6M' : yearsSinceStarted + 'Y'}</p></i>}
+              <span>
+                <p>{summary?.createdDate.split('T')[0]}</p>
+                <p>SummarySubmissionDate: {summarySubmissionDate}</p>
+              </span>
+              <span>
+                {/* <p>Anniversary:{calculateAnniversaryDate(summarySubmissionDate, summary?.createdDate.split('T')[0])}</p> */}
+                <p>ShowIconTrpohy: {showTrophyIcon(summarySubmissionDate, summary?.createdDate.split('T')[0])}</p>
               </span>
               {showStar(hoursLogged, summary.weeklycommittedHours) && (
                 <i
