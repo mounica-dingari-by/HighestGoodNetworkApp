@@ -9,7 +9,8 @@ import {
   assignStarDotColors,
   showStar,
 } from 'utils/leaderboardPermissions';
-
+import moment from 'moment';
+import { calculateDurationBetweenDates, showTrophyIcon } from 'utils/anniversaryPermissions';
 function useDeepEffect(effectFunc, deps) {
   const isFirst = useRef(true);
   const prevDeps = useRef(deps);
@@ -39,6 +40,7 @@ const LeaderBoard = ({
 }) => {
   const userId = asUser ? asUser : loggedInUser.userId;
   const isAdmin = ['Owner', 'Administrator', 'Core Team'].includes(loggedInUser.role);
+  const todaysDate = moment().tz('America/Los_Angeles').format('YYYY-MM-DD');;
 
   useDeepEffect(() => {
     getLeaderboardData(userId);
@@ -58,7 +60,7 @@ const LeaderBoard = ({
           }
         }
       }
-    } catch {}
+    } catch { }
   }, [leaderBoardData]);
 
   const [isOpen, setOpen] = useState(false);
@@ -230,109 +232,122 @@ const LeaderBoard = ({
                 </span>
               </td>
             </tr>
-            {leaderBoardData.map((item, key) => (
-              <tr key={key}>
-                <td className="align-middle">
-                  <div>
-                    <Modal isOpen={isDashboardOpen === item.personId} toggle={dashboardToggle}>
-                      <ModalHeader toggle={dashboardToggle}>Jump to personal Dashboard</ModalHeader>
-                      <ModalBody>
-                        <p>Are you sure you wish to view this {item.name} dashboard?</p>
-                      </ModalBody>
-                      <ModalFooter>
-                        <Button variant="primary" onClick={() => showDashboard(item)}>
-                          Ok
-                        </Button>{' '}
-                        <Button variant="secondary" onClick={dashboardToggle}>
-                          Cancel
-                        </Button>
-                      </ModalFooter>
-                    </Modal>
-                  </div>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: isAdmin ? 'space-between' : 'center',
-                    }}
-                  >
-                    {/* <Link to={`/dashboard/${item.personId}`}> */}
-                    <div onClick={() => dashboardToggle(item)}>
-                      {hasLeaderboardPermissions(loggedInUser.role) &&
-                      showStar(item.tangibletime, item.weeklycommittedHours) ? (
-                        <i
-                          className="fa fa-star"
-                          title={`Weekly Committed: ${item.weeklycommittedHours} hours`}
-                          style={{
-                            color: assignStarDotColors(
-                              item.tangibletime,
-                              item.weeklycommittedHours,
-                            ),
-                            fontSize: '20px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                          }}
-                        />
-                      ) : (
+            {leaderBoardData.map((item, key) => {
+              const durationSinceStarted = calculateDurationBetweenDates(todaysDate, item.createdDate.split('T')[0])
+              return (
+                <tr key={key}>
+                  <td className="align-middle">
+                    <div>
+                      <Modal isOpen={isDashboardOpen === item.personId} toggle={dashboardToggle}>
+                        <ModalHeader toggle={dashboardToggle}>Jump to personal Dashboard</ModalHeader>
+                        <ModalBody>
+                          <p>Are you sure you wish to view this {item.name} dashboard?</p>
+                        </ModalBody>
+                        <ModalFooter>
+                          <Button variant="primary" onClick={() => showDashboard(item)}>
+                            Ok
+                          </Button>{' '}
+                          <Button variant="secondary" onClick={dashboardToggle}>
+                            Cancel
+                          </Button>
+                        </ModalFooter>
+                      </Modal>
+                    </div>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: isAdmin ? 'space-between' : 'center',
+                      }}
+                    >
+                      {/* <Link to={`/dashboard/${item.personId}`}> */}
+                      <div onClick={() => dashboardToggle(item)}>
+                        {hasLeaderboardPermissions(loggedInUser.role) &&
+                          showStar(item.tangibletime, item.weeklycommittedHours) ? (
+                          <i
+                            className="fa fa-star"
+                            title={`Weekly Committed: ${item.weeklycommittedHours} hours`}
+                            style={{
+                              color: assignStarDotColors(
+                                item.tangibletime,
+                                item.weeklycommittedHours,
+                              ),
+                              fontSize: '20px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                            }}
+                          />
+                        ) : (
+                          <div
+                            title={`Weekly Committed: ${item.weeklycommittedHours} hours`}
+                            style={{
+                              backgroundColor:
+                                item.tangibletime >= item.weeklycommittedHours ? '#32CD32' : 'red',
+                              width: 15,
+                              height: 15,
+                              borderRadius: 7.5,
+                              margin: 'auto',
+                              verticalAlign: 'middle',
+                            }}
+                          />
+                        )}
+                      </div>
+
+                      {isAdmin && item.hasSummary && (
                         <div
-                          title={`Weekly Committed: ${item.weeklycommittedHours} hours`}
+                          title={`Weekly Summary Submitted`}
                           style={{
-                            backgroundColor:
-                              item.tangibletime >= item.weeklycommittedHours ? '#32CD32' : 'red',
-                            width: 15,
-                            height: 15,
-                            borderRadius: 7.5,
-                            margin: 'auto',
-                            verticalAlign: 'middle',
+                            color: '#32a518',
+                            cursor: 'default',
                           }}
-                        />
+                        >
+                          <strong>✓</strong>
+                        </div>
                       )}
                     </div>
-                    {isAdmin && item.hasSummary && (
-                      <div
-                        title={`Weekly Summary Submitted`}
-                        style={{
-                          color: '#32a518',
-                          cursor: 'default',
-                        }}
-                      >
-                        <strong>✓</strong>
-                      </div>
+                    {/* </Link> */}
+                  </td>
+                  <th scope="row">
+                    <Link to={`/userprofile/${item.personId}`} title="View Profile">
+                      {item.name}
+                    </Link>
+                    &nbsp;&nbsp;&nbsp;
+                    {showTrophyIcon(todaysDate, item.createdDate.split('T')[0]) &&
+                      <i className="fa fa-trophy" style={{ marginLeft: '10px', fontSize: '18px' }}>
+                        {
+                          <p style={{ fontSize: '10px', marginLeft: '5px' }}>
+                            {durationSinceStarted.months >= 5.8 && durationSinceStarted.months <= 7 ? '6M' : (durationSinceStarted.years >= 0.8 ? Math.round(durationSinceStarted.years) + 'Y' : null)}
+                          </p>}
+                      </i>}
+                    &nbsp;&nbsp;&nbsp;
+                    {isAdmin && !item.isVisible && (
+                      <i className="fa fa-eye-slash" title="User is invisible"></i>
                     )}
-                  </div>
-                  {/* </Link> */}
-                </td>
-                <th scope="row">
-                  <Link to={`/userprofile/${item.personId}`} title="View Profile">
-                    {item.name}
-                  </Link>
-                  &nbsp;&nbsp;&nbsp;
-                  {isAdmin && !item.isVisible && (
-                    <i className="fa fa-eye-slash" title="User is invisible"></i>
-                  )}
-                </th>
-                <td className="align-middle" id={`id${item.personId}`}>
-                  <span title="Tangible time">{item.tangibletime}</span>
-                </td>
-                <td className="align-middle">
-                  <Link
-                    to={`/timelog/${item.personId}`}
-                    title={`TangibleEffort: ${item.tangibletime} hours`}
-                  >
-                    <Progress value={item.barprogress} color={item.barcolor} />
-                  </Link>
-                </td>
-                <td className="align-middle">
-                  <span
-                    title="Total time"
-                    className={item.totalintangibletime_hrs > 0 ? 'boldClass' : null}
-                  >
-                    {item.totaltime}
-                  </span>
-                </td>
-              </tr>
-            ))}
+                  </th>
+                  <td className="align-middle" id={`id${item.personId}`}>
+                    <span title="Tangible time">{item.tangibletime}</span>
+                  </td>
+                  <td className="align-middle">
+                    <Link
+                      to={`/timelog/${item.personId}`}
+                      title={`TangibleEffort: ${item.tangibletime} hours`}
+                    >
+                      <Progress value={item.barprogress} color={item.barcolor} />
+                    </Link>
+                  </td>
+                  <td className="align-middle">
+                    <span
+                      title="Total time"
+                      className={item.totalintangibletime_hrs > 0 ? 'boldClass' : null}
+                    >
+                      {item.totaltime}
+                    </span>
+                  </td>
+                </tr>
+              )
+            }
+            )}
           </tbody>
         </Table>
       </div>
