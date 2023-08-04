@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { ENDPOINTS } from '../../utils/URL';
+import React, { useState} from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Label, Input } from 'reactstrap';
 import { toast } from 'react-toastify';
 import { connect } from 'react-redux';
