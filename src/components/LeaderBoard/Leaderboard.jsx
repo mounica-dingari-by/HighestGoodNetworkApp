@@ -51,7 +51,7 @@ const LeaderBoard = ({
     setMouseoverTextValue(totalTimeMouseoverText);
   }, [totalTimeMouseoverText]);
 
-  const handleMouseoverTextUpdate = (text) => {
+  const handleMouseoverTextUpdate = text => {
     setMouseoverTextValue(text);
   };
 
@@ -73,7 +73,7 @@ const LeaderBoard = ({
           }
         }
       }
-    } catch { }
+    } catch {}
   }, [leaderBoardData]);
 
   const [isOpen, setOpen] = useState(false);
@@ -223,12 +223,12 @@ const LeaderBoard = ({
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <div style={{ textAlign: 'left' }}>
                     <span className="d-sm-none">Tot. Time</span>
-                    <span className="d-none d-sm-inline-block" title={mouseoverTextValue}>Total Time </span>
+                    <span className="d-none d-sm-inline-block" title={mouseoverTextValue}>
+                      Total Time{' '}
+                    </span>
                   </div>
                   {isOwner && (
-                    <MouseoverTextTotalTimeEditButton
-                      onUpdate={handleMouseoverTextUpdate}
-                    />
+                    <MouseoverTextTotalTimeEditButton onUpdate={handleMouseoverTextUpdate} />
                   )}
                 </div>
               </th>
@@ -283,7 +283,7 @@ const LeaderBoard = ({
                     {/* <Link to={`/dashboard/${item.personId}`}> */}
                     <div onClick={() => dashboardToggle(item)}>
                       {hasLeaderboardPermissions(loggedInUser.role) &&
-                        showStar(item.tangibletime, item.weeklycommittedHours) ? (
+                      showStar(item.tangibletime, item.weeklycommittedHours) ? (
                         <i
                           className="fa fa-star"
                           title={`Weekly Committed: ${item.weeklycommittedHours} hours`}
